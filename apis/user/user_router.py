@@ -11,7 +11,7 @@ from starlette.responses import RedirectResponse
 
 from apis.database import get_db
 from apis.user.user_crud import create_user, delete_user, get_user
-from apis.user.user_schema import UserSchema, Token
+from apis.user.user_schema import UserSchema
 
 
 SECRET_KEY="it's secret"
@@ -31,7 +31,7 @@ def user_login(request:Request):
 
     return templates.TemplateResponse("login.html", {"request":request})
 
-@router.post("/login", response_model=Token)
+@router.post("/login")
 def user_login(response: Response, 
             login_form: OAuth2PasswordRequestForm=Depends(),
             db: Session=Depends(get_db)):
@@ -52,9 +52,13 @@ def user_login(response: Response,
     response.set_cookie(key="access-token", value=access_token)
     
     return response
+    # {
+    #     "access_token": access_token, "token_type": "bearer"
+    # }
 
 @router.post("/logout")
-def user_logout(request:Request):
+def user_logout():
+    # 쿠키 삭제
     response = RedirectResponse(url="/kiosk/user/login", status_code=status.HTTP_303_SEE_OTHER)
     response.delete_cookie(key="access-token")
     

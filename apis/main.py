@@ -1,7 +1,14 @@
 from fastapi import FastAPI
-from .routers.user_router import router
+
+from fastapi.staticfiles import StaticFiles
+
+from apis.user import user_router
+from apis.place import place_router
 
 
 kiosk = FastAPI()
 
-kiosk.include_router(router)
+kiosk.mount("/static", StaticFiles(directory="static"), name="static")
+
+kiosk.include_router(user_router.router)
+kiosk.include_router(place_router.router)
