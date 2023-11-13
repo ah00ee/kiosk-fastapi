@@ -28,6 +28,7 @@ def user_create(user: UserSchema, db: Session=Depends(get_db)):
 
 @router.get("/login")
 def user_login(request:Request):
+
     return templates.TemplateResponse("login.html", {"request":request})
 
 @router.post("/login", response_model=Token)
@@ -47,9 +48,17 @@ def user_login(response: Response,
     access_token = jwt.encode(data, SECRET_KEY)  
 
     # 쿠키 저장
-    response.set_cookie(key="access-token", value=access_token) 
+    response = RedirectResponse(url="/kiosk/place/", status_code=status.HTTP_303_SEE_OTHER)
+    response.set_cookie(key="access-token", value=access_token)
+    
+    return response
 
-    return RedirectResponse(url="/kiosk/place/", status_code=status.HTTP_303_SEE_OTHER)
+@router.post("/logout")
+def user_logout(request:Request):
+    response = RedirectResponse(url="/kiosk/user/login", status_code=status.HTTP_303_SEE_OTHER)
+    response.delete_cookie(key="access-token")
+    
+    return response
 
 @router.post("/{id}/delete")
 def user_delete(id:int, db:Session=Depends(get_db)):
