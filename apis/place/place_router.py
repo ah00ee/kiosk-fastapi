@@ -7,6 +7,8 @@ from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
 
 from apis.database import get_db
+from apis.menu.menu_crud import create_menu, load_menu
+from apis.menu.menu_schema import MenuSchema
 from apis.place.place_crud import create_place, load_place
 from apis.place.place_schema import PlaceSchema
 
@@ -48,3 +50,35 @@ def place_create(request:Request,
 
     return RedirectResponse(url="/kiosk/place/", status_code=status.HTTP_303_SEE_OTHER)
 
+@router.get("/{place_id}/menu")
+def get_menu(request: Request,
+            place_id: int,
+            db: Session=Depends(get_db)
+            ):
+
+    token = request.cookies.get("access-token")
+    payload = jwt.decode(token, SECRET_KEY)
+    username: str = payload.get("sub")
+
+    data = load_menu(db, place_id, username)
+
+    return templates.TemplateResponse("menu.html", {"request": request, "data": data})
+
+@router.get("/{place_id}/menu/create")
+def menu_create(request:Request,
+                place_id:int):
+
+    return templates.TemplateResponse("createMenu.html", {"request": request, "data": {"place_id":place_id}})
+
+@router.post("/{place_id}/menu/create")
+def menu_create(request:Request,
+                place_id: int,
+                menu: Form=Depends(MenuSchema.form),
+                db: Session=Depends(get_db)
+                ):
+
+    token = request.cookies.get("access-token")
+    payload = jwt.decode(token, SECRET_KEY)
+    create_menu(db, place_id, menu, payload)
+
+    return RedirectResponse(url=f"/kiosk/place/{place_id}/menu", status_code=status.HTTP_303_SEE_OTHER)
