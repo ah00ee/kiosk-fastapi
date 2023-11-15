@@ -30,7 +30,17 @@ def get_place(request:Request,
     username: str = payload.get("sub")
 
     data = load_place(db, username)
+    return templates.TemplateResponse("userSelection.html", {"request": request})
 
+@router.post("/")
+def get_place(request:Request,
+            db: Session=Depends(get_db)):
+    token = request.cookies.get("access-token")
+    payload = jwt.decode(token, SECRET_KEY)
+    username: str = payload.get("sub")
+
+    data = load_place(db, username)
+    
     return templates.TemplateResponse("userPlace.html", {"request": request, "data": data})
 
 @router.get("/create")
