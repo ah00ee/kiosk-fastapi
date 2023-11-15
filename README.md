@@ -6,6 +6,9 @@
 - Framework: FastAPI
 - Database: SQLite
 
+## ERD
+<img src="img/erd.png" width=400>
+
 ## How to start server
 ```
 uvicorn apis.main:kiosk --reload  
