@@ -16,7 +16,8 @@ router = APIRouter(
 )
 templates = Jinja2Templates(directory="templates")
 
-@router.post("/{place_id}/menu")
+
+@router.get("/{place_id}/menu")
 def get_menu(request: Request,
             place_id: int,
             db: Session=Depends(get_db)
@@ -28,4 +29,4 @@ def get_menu(request: Request,
 
     data = load_menu(db, place_id, username)
 
-    return templates.TemplateResponse("menu.html", {"request": request, "data": data})
+    return templates.TemplateResponse("kioskMenu.html", {"request": request, "data": data})
