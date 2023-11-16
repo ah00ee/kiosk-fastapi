@@ -17,7 +17,7 @@ from apis.user.user_schema import UserSchema
 SECRET_KEY="it's secret"
 
 router = APIRouter(
-    prefix="/kiosk/user"
+    prefix="/user"
 )
 templates = Jinja2Templates(directory="templates")
 
@@ -48,7 +48,7 @@ def user_login(response: Response,
     access_token = jwt.encode(data, SECRET_KEY)  
 
     # 쿠키 저장
-    response = RedirectResponse(url="/kiosk/place/", status_code=status.HTTP_303_SEE_OTHER)
+    response = RedirectResponse(url="/user/place/", status_code=status.HTTP_303_SEE_OTHER)
     response.set_cookie(key="access-token", value=access_token)
     
     return response
@@ -59,7 +59,7 @@ def user_login(response: Response,
 @router.post("/logout")
 def user_logout():
     # 쿠키 삭제
-    response = RedirectResponse(url="/kiosk/user/login", status_code=status.HTTP_303_SEE_OTHER)
+    response = RedirectResponse(url="/user/login", status_code=status.HTTP_303_SEE_OTHER)
     response.delete_cookie(key="access-token")
     
     return response

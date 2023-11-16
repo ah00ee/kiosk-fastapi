@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
 
 from apis.database import get_db
-from apis.menu.menu_crud import create_menu, load_menu
+from apis.menu.menu_crud import create_menu
 from apis.menu.menu_schema import MenuSchema
 from apis.place.place_crud import create_place, load_place
 from apis.place.place_schema import PlaceSchema
@@ -16,25 +16,15 @@ from apis.place.place_schema import PlaceSchema
 SECRET_KEY = "it's secret"
 
 router = APIRouter(
-    prefix="/kiosk/place"
+    prefix="/user/place"
 )
 templates = Jinja2Templates(directory="templates")
 
-        
+
 @router.get("/")
 def get_place(request:Request,
-            db: Session=Depends(get_db)):
-
-    token = request.cookies.get("access-token")
-    payload = jwt.decode(token, SECRET_KEY)
-    username: str = payload.get("sub")
-
-    data = load_place(db, username)
-    return templates.TemplateResponse("userSelection.html", {"request": request})
-
-@router.post("/")
-def get_place(request:Request,
-            db: Session=Depends(get_db)):
+            db: Session=Depends(get_db)
+            ):
     token = request.cookies.get("access-token")
     payload = jwt.decode(token, SECRET_KEY)
     username: str = payload.get("sub")
@@ -60,19 +50,14 @@ def place_create(request:Request,
 
     return RedirectResponse(url="/kiosk/place/", status_code=status.HTTP_303_SEE_OTHER)
 
-@router.get("/{place_id}/menu")
-def get_menu(request: Request,
-            place_id: int,
-            db: Session=Depends(get_db)
-            ):
+@router.get("/{place_id}")
+def get_mode(request: Request, place_id: int):
 
-    token = request.cookies.get("access-token")
-    payload = jwt.decode(token, SECRET_KEY)
-    username: str = payload.get("sub")
+    return templates.TemplateResponse("userSelection.html", {"request": request, "data":{"place_id": place_id}})
 
-    data = load_menu(db, place_id, username)
-
-    return templates.TemplateResponse("menu.html", {"request": request, "data": data})
+@router.post("/{place_id}/manage")
+def place_manage():
+    return {"message": "manage user place"}
 
 @router.get("/{place_id}/menu/create")
 def menu_create(request:Request,
