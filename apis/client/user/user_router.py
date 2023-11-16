@@ -10,8 +10,8 @@ from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
 
 from apis.database import get_db
-from apis.user.user_crud import create_user, delete_user, get_user
-from apis.user.user_schema import UserSchema
+from apis.client.user.user_crud import create_user, delete_user, get_user
+from apis.client.user.user_schema import UserSchema
 
 
 SECRET_KEY="it's secret"

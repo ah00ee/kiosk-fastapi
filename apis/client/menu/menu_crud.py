@@ -2,14 +2,12 @@ from sqlalchemy.orm import Session
 
 from models.client import Menu, Place
 
-from apis.user.user_schema import Token
-from apis.menu.menu_schema import MenuSchema
+from apis.client.menu.menu_schema import MenuSchema
 
 
 def create_menu(db: Session, 
                 place_id: int,
                 menu: MenuSchema, 
-                token: Token
                 ):
     menu = Menu(name=menu.name,
                 price=menu.price,

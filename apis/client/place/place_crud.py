@@ -2,8 +2,8 @@ from sqlalchemy.orm import Session
 
 from models.client import Place, UserPlace, User
 
-from apis.user.user_schema import Token
-from apis.place.place_schema import PlaceSchema
+from apis.client.user.user_schema import Token
+from apis.client.place.place_schema import PlaceSchema
 
 
 def create_place(db: Session, 

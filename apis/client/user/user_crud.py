@@ -1,7 +1,7 @@
 from models.client import User
 from sqlalchemy.orm import Session
 
-from apis.user.user_schema import UserSchema
+from apis.client.user.user_schema import UserSchema
 
 def create_user(db: Session, user: UserSchema):
     user = User(username=user.username,

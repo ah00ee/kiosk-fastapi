@@ -1,15 +1,12 @@
-from logging import PlaceHolder
-from fastapi import APIRouter, Depends, Request, Response
+from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
-
-from pydantic import BaseModel
 
 from sqlalchemy.orm import Session
 
 from jose import jwt
 
 from apis.database import get_db
-from apis.menu.menu_crud import load_menu
+from apis.kiosk.kiosk_crud import load_menu
 
 
 SECRET_KEY = "it's secret"

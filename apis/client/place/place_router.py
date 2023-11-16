@@ -7,10 +7,10 @@ from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
 
 from apis.database import get_db
-from apis.menu.menu_crud import create_menu
-from apis.menu.menu_schema import MenuSchema
-from apis.place.place_crud import create_place, load_place
-from apis.place.place_schema import PlaceSchema
+from apis.client.menu.menu_crud import create_menu
+from apis.client.menu.menu_schema import MenuSchema
+from apis.client.place.place_crud import create_place, load_place
+from apis.client.place.place_schema import PlaceSchema
 
 
 SECRET_KEY = "it's secret"
