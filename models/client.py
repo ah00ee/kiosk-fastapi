@@ -1,3 +1,7 @@
+from ast import In
+from enum import Flag
+from re import I
+from sys import flags
 from sqlalchemy import Column, Integer, String, Text, Float, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 
@@ -39,9 +43,28 @@ class Menu(Base):
     out_of_stock = Column(Boolean, nullable=False, default=False)
 
 
-class Order(Base):
-    __tablename__ = "order"
+class Cart(Base):
+    __tablename__ = "cart"
 
     id = Column(Integer, primary_key=True)
+    order_number = Column(Integer, nullable=False)
+    place_id = Column(Integer, ForeignKey("place.id"))
+    ordered_amount = Column(Integer, nullable=False)
+    ordered_price = Column(Float, nullable=False)
+
+
+class CartMenu(Base):
+    __tablename__ = "cart_menu"
+
+    id = Column(Integer, primary_key=True)
+    order_number = Column(Integer, nullable=False)
     menu_id = Column(Integer, ForeignKey("menu.id"))
     quantity = Column(Integer, nullable=False)
+    total_price = Column(Float, nullable=False)
+
+
+class Order(Base):
+    __tablename__ = "order"
+    
+    cart_id = Column(Integer, ForeignKey("cart.id"), primary_key=True)
+    cart_menu_id = Column(Integer, ForeignKey("cart_menu.id"), primary_key=True)
