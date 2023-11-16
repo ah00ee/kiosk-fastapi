@@ -46,7 +46,7 @@ def place_create(request:Request,
     payload = jwt.decode(token, SECRET_KEY)
     create_place(db, place, payload)
 
-    return RedirectResponse(url="/kiosk/place/", status_code=status.HTTP_303_SEE_OTHER)
+    return RedirectResponse(url="/user/place/", status_code=status.HTTP_303_SEE_OTHER)
 
 @router.get("/{place_id}")
 def get_mode(request: Request, place_id: int):
@@ -74,14 +74,11 @@ def menu_create(request:Request,
     return templates.TemplateResponse("createMenu.html", {"request": request, "data": {"place_id":place_id}})
 
 @router.post("/{place_id}/menu/create")
-def menu_create(request:Request,
-                place_id: int,
+def menu_create(place_id: int,
                 menu: Form=Depends(MenuSchema.form),
                 db: Session=Depends(get_db)
                 ):
 
-    token = request.cookies.get("access-token")
-    payload = jwt.decode(token, SECRET_KEY)
-    create_menu(db, place_id, menu, payload)
+    create_menu(db, place_id, menu)
 
     return RedirectResponse(url=f"/user/place/{place_id}/manage", status_code=status.HTTP_303_SEE_OTHER)
