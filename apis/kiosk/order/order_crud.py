@@ -41,5 +41,4 @@ def create_order(db: Session,
         )
         db.add(order)
     db.commit()
-
-    return cart_menu
+    
