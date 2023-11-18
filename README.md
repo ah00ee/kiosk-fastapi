@@ -7,24 +7,16 @@
 - Database: SQLite
 
 ## ERD
-<img src="img/erd.png" width=400>
+<img src="img/erd.png" width=450>
 
 ## How to start server
 ```
 uvicorn apis.main:kiosk --reload  
 ```
 
-## API
-- ### <a href="http://127.0.0.1/docs">docs</a>
-- ### user 명세(prefix: /kiosk/user)
-|API 명|URL|METHOD|설명|
-|--|--|--|--|
-|회원가입|/create|POST|회원을 등록한다.|
-|로그인|/login|POST|로그인을 한다.|
-|로그아웃|/logout|POST|로그아웃을 한다.|
+## System Architecture
+<img src="img/system_architecture.png" width=500>
 
-- ### place 명세(prefix: /kiosk/place)
-|API 명|URL|METHOD|설명|
-|--|--|--|--|
-|가게 불러오기|/|GET|사용자에 등록된 모든 가게를 불러온다.|
-|가게 등록하기|/create|POST|가게를 등록한다.|
+
+## Reference
+- 아임포트 결제 연동 - <a href="https://www.inflearn.com/course/%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EC%9E%A5%EA%B3%A0-%EC%95%84%EC%9E%84%ED%8F%AC%ED%8A%B8-%EA%B2%B0%EC%A0%9C/dashboard">파이썬/장고로 결제 시작하기 (Feat.아임포트) - 기본편
