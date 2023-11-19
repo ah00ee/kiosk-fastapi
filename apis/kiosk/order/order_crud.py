@@ -42,3 +42,23 @@ def create_order(db: Session,
         db.add(order)
     db.commit()
     
+    return order_number
+
+def get_order_number(db: Session):
+    return db.query(Cart.order_number).all()[-1][0]
+
+def get_quantity(db: Session, 
+                order_id: int,
+                ):
+    cart_menu_ids = db.query(Order.cart_menu_id).filter(Order.cart_id==order_id).all()
+    for id in cart_menu_ids:
+        id = id[0]
+        cart_menu = db.query(CartMenu).get(id)
+        menu = db.query(Menu).get(cart_menu.menu_id)
+
+        setattr(menu, 'quantity', menu.quantity-cart_menu.quantity)
+        if menu.quantity == 0:
+            setattr(menu, 'out_of_stock', True)
+        db.commit()
+
+    
