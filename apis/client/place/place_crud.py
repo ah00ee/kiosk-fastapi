@@ -56,3 +56,14 @@ def load_menu(db: Session,
     place = db.query(Place).get(place_id)
 
     return {"username": username, "place": place.name, "menus": place.menus}
+
+def quantity_update(db: Session,
+                    place_id: int,
+                    data
+                    ):
+    menu_name, quantity = data['name'], int(data['quantity'])
+
+    db.query(Menu).filter(Menu.place_id==place_id, Menu.name==menu_name).update({"quantity": quantity})
+    if quantity > 0:
+        db.query(Menu).filter(Menu.place_id==place_id, Menu.name==menu_name).update({"out_of_stock": False})
+    db.commit()

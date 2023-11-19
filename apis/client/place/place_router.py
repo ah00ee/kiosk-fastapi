@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
 
 from apis.database import get_db
-from apis.client.place.place_crud import create_place, load_place, create_menu, load_menu
+from apis.client.place.place_crud import create_place, load_place, create_menu, load_menu, quantity_update
 from apis.client.place.place_schema import PlaceSchema, MenuSchema
 
 
@@ -66,6 +66,14 @@ def place_manage(request:Request,
     data = load_menu(db, place_id, username)
 
     return templates.TemplateResponse("manageMenu.html", {"request": request, "data": data})
+
+@router.put("/{place_id}/manage")
+async def update_place(request:Request,
+                place_id: int,
+                db:Session=Depends(get_db),):
+                
+    data = await request.json()
+    quantity_update(db, place_id, data)
 
 @router.get("/{place_id}/menu/create")
 def menu_create(request:Request,
