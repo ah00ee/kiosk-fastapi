@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.templating import Jinja2Templates
 
+from datetime import datetime, timedelta
 from http.client import HTTPException
 
 from jose import jwt
@@ -12,9 +13,11 @@ from starlette.responses import RedirectResponse
 from apis.database import get_db
 from apis.client.user.user_crud import create_user, delete_user, get_user
 from apis.client.user.user_schema import UserSchema
+from apis.utils import login_required
 
 
 SECRET_KEY="it's secret"
+ACCESS_TOKEN_EXPIRE_MINUTES =0.2
 
 router = APIRouter(
     prefix="/user"
@@ -43,7 +46,8 @@ def user_login(response: Response,
         )
 
     data = {
-        "sub": _user.username
+        "sub": _user.username,
+        "exp": datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     }
     access_token = jwt.encode(data, SECRET_KEY)  
 
@@ -57,6 +61,7 @@ def user_login(response: Response,
     # }
 
 @router.post("/logout")
+@login_required
 def user_logout():
     # 쿠키 삭제
     response = RedirectResponse(url="/user/login", status_code=status.HTTP_303_SEE_OTHER)

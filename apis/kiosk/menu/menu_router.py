@@ -3,13 +3,10 @@ from fastapi.templating import Jinja2Templates
 
 from sqlalchemy.orm import Session
 
-from jose import jwt
-
 from apis.database import get_db
 from apis.kiosk.menu.menu_crud import load_menu
+from apis.utils import login_required, get_payload
 
-
-SECRET_KEY = "it's secret"
 
 router = APIRouter(
     prefix="/kiosk/place"
@@ -18,14 +15,13 @@ templates = Jinja2Templates(directory="templates")
 
 
 @router.get("/{place_id}/menu")
+@login_required
 def get_menu(request: Request,
             place_id: int,
             db: Session=Depends(get_db)
             ):
-
-    token = request.cookies.get("access-token")
-    payload = jwt.decode(token, SECRET_KEY)
-    username: str = payload.get("sub")
+    payload = get_payload(request)
+    username = payload.get("sub")
 
     data = load_menu(db, place_id, username)
 

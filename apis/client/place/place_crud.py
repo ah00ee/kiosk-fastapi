@@ -9,6 +9,7 @@ from apis.client.place.place_schema import PlaceSchema, MenuSchema
 def create_place(db: Session, 
                 place: PlaceSchema,
                 token: Token):
+
     place = Place(name=place.name,
                 address=place.address
         )
@@ -22,7 +23,7 @@ def create_place(db: Session,
     db.commit()
 
     return place
-
+   
 def load_place(db: Session, username):
     user = db.query(User).filter(User.username == username).first()
     user_place_all = db.query(UserPlace).filter(UserPlace.user_id == user.id).all()
