@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menus</title>
+</head>
+<body>
+    <form action="/user/logout" method="POST">
+        <button type="submit">로그아웃</button>
+    </form>
+    <h4>{{ data.place }}'s Menu</h4>
+    <div>
+        {% for m in data.menus %}
+        <div>
+            <p class="menu-name">{{ m.name }}</p>
+            <p>{{ m.price }}</p>
+            <p>{{ m.quantity }}</p>
+            {% if m.out_of_stock %} 
+            <p>품절</p>
+            {% endif %}
+        </div>
+        <div>
+            <form>
+                <input type="number" min="0" class="menu">수량
+                <button type="button" onclick="updateQuantity()">업데이트</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+    <script src="/static/js/manageMenu.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/kioskMenu.css?">
+    <title>Menus</title>
+</head>
+<body>
+    <div>
+        <h4>결제하기</h4>
+    </div>
+    <div>
+        <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+        <script>
+        const start_order = location.href.lastIndexOf("/");
+        const order_number = location.href.substring(start_order+1);
+        const end_place = location.href.substring(0, start_order).lastIndexOf("/");
+        const start_place = location.href.substring(0, end_place).lastIndexOf("/");
+        const place_id = location.href.substring(start_place+1, end_place)
+        (function(){
+            const IMP = window.IMP;
+            const code = "iamport"; // 포트원 테스트 가맹점 식별코드
+            IMP.init(code);
+
+            const merchant_uid = 'merchant_' + new Date().getTime();
+
+            // 결제요청 창을 띄웁니다.
+            IMP.request_pay({
+                merchant_uid: merchant_uid, // 결제 식별자 (대개 서버에서 생성합니다)
+                name: '주문명: 결제테스트',     // 결제명
+                amount: 0,                // 결제금액
+            }, function(rsp){
+                console.log("rsp :", rsp);
+                console.log("merchant_uid: ", merchant_uid);
+                alert("유저와의 결제 과정이 끝났으며, 결제 검증이 필요합니다.");
+                // location.href = "...";   // 결제 검증 페이지로 이동
+                window.location.href = `/kiosk/place/${place_id}/order/${order_number}/pay`
+            });
+        })();
+        </script>
+    </div>
+</body>
+</html>

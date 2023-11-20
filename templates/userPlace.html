@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/userPlace.css">
+    <title>My Places</title>
+</head>
+<body>
+    <form action="/user/logout" method="POST">
+        <button type="submit">로그아웃</button>
+    </form>
+    <h4>{{ data.username }}'s Places</h4>
+    <button onclick="moveToPlaceCreation()">가게 등록하기</button>
+    {% for p in data.place %}
+    <div class="user-place" onclick="moveToManagePage(this.id)" id="{{ p.id }}">
+        <p>{{ p.name }}</p>
+        <p>{{ p.address }}</p>    
+    </div>
+    {% endfor %}
+    <script src="/static/js/userPlace.js"></script>
+</body>
+</html>

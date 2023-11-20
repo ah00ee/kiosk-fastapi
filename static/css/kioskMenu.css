@@ -1,0 +1,25 @@
+.menu-box{
+    border: black;
+    border-style: solid;
+    width: 100%;
+    column-count: 3;
+    float: left;
+    width: 49%;
+}
+
+.cart-table{
+    width: 100%;
+}
+
+.cart-table th, td{
+    border: black;
+    border-style: solid;
+}
+
+.pay{
+    float: right;
+}
+
+#place{
+    align-content: center;
+}

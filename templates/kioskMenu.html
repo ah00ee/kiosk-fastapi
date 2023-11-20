@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/kioskMenu.css">
+    <title>Menus</title>
+</head>
+<body>
+    <div id="place">
+        <h4>{{ data.place }}'s Menu</h4>
+    </div>
+    <div>
+    {% for m in data.menus %}
+        <div>
+            <div class="menu-box">
+                <div class="left">
+                    <p class="menu-name">{{ m.name }}</p>
+                    <p class="menu-price">{{ m.price }}</p>
+                </div>
+                <div class="right">
+                    {% if m.out_of_stock %} 
+                    <h4>품절</h4>
+                    {% else %}
+                    <form>
+                        <input type="number" min="0" max="{{ m.quantity }}" class="menu">수량
+                        <button type="button" onclick="getMenu()">담기</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+ 
+    <div>
+        <h4>장바구니</h4>
+        <div id="cart">
+            <table class="cart-table" id="cart-table">
+                <tr class="cart-table">
+                    <th>메뉴명</th>
+                    <th>수량</th>
+                    <th>가격</th>
+                </tr>
+            </table>
+        </div>
+        <div class="pay">
+            <button type="button" onclick="order()">결제하기</button>
+        </div>
+    </div>
+    <script src="/static/js/kioskMenu.js?"></script>
+</body>
+</html>
