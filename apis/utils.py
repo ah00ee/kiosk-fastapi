@@ -10,7 +10,8 @@ def login_required(func):
     @wraps(func)
     async def wrapper(*args, request: Request, **kwargs):
         try:
-            _ = get_payload()
+            token = request.cookies.get("access-token")
+            _ = jwt.decode(token, SECRET_KEY)
 
         except:
             print("로그인 세션이 만료되었습니다. 다시 로그인하세요.")

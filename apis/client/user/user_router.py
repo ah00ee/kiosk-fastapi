@@ -17,7 +17,7 @@ from apis.utils import login_required
 
 
 SECRET_KEY="it's secret"
-ACCESS_TOKEN_EXPIRE_MINUTES =0.2
+ACCESS_TOKEN_EXPIRE_MINUTES = 60*24
 
 router = APIRouter(
     prefix="/user"
