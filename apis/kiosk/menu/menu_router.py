@@ -15,8 +15,7 @@ templates = Jinja2Templates(directory="templates")
 
 
 @router.get("/{place_id}/menu")
-@login_required
-def get_menu(request: Request,
+async def get_menu(request: Request,
             place_id: int,
             db: Session=Depends(get_db)
             ):

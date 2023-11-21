@@ -6,7 +6,6 @@ from starlette.responses import RedirectResponse
 
 from apis.database import get_db
 from apis.kiosk.order.order_crud import create_order, get_order_number, get_quantity
-from apis.utils import login_required
 
 
 router = APIRouter(
@@ -15,8 +14,8 @@ router = APIRouter(
 templates = Jinja2Templates(directory="templates")
 
 @router.get("/{place_id}/order")
-@login_required
-async def get_payment(place_id: int,
+async def get_payment(
+                    place_id: int,
                     db: Session=Depends(get_db)
                     ):
     order_number = get_order_number(db)
@@ -24,7 +23,6 @@ async def get_payment(place_id: int,
     return RedirectResponse(url=f"/kiosk/place/{place_id}/order/{order_number}", status_code=status.HTTP_303_SEE_OTHER)
     
 @router.post("/{place_id}/order")
-@login_required
 async def pay_request(request: Request,
                 place_id: int,
                 db: Session=Depends(get_db)
@@ -36,7 +34,6 @@ async def pay_request(request: Request,
     create_order(db, place_id, menus)
 
 @router.get("/{place_id}/order/{order_number}")
-@login_required
 async def order_pay(request: Request,
                     order_number: int,
                     db: Session=Depends(get_db)
