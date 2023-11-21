@@ -1,5 +1,5 @@
-function moveToManagePage(place_id){
-    var url = `/user/place/${place_id}/manage`;
+function moveToSelectPage(place_id){
+    var url = `/user/place/${place_id}`;
     fetch(url
     ).then(response => response.text())
     .then(_ => {

@@ -15,11 +15,11 @@
     <h4>{{ data.username }}'s Places</h4>
     <button onclick="moveToPlaceCreation()">가게 등록하기</button>
     {% for p in data.place %}
-    <div class="user-place" onclick="moveToManagePage(this.id)" id="{{ p.id }}">
+    <div class="user-place" onclick="moveToSelectPage(this.id)" id="{{ p.id }}">
         <p>{{ p.name }}</p>
         <p>{{ p.address }}</p>    
     </div>
     {% endfor %}
-    <script src="/static/js/userPlace.js"></script>
+    <script src="/static/js/userPlace.js?"></script>
 </body>
 </html>
